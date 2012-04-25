@@ -1,0 +1,157 @@
+<html>
+<head>
+	<script type ="application/javascript">
+
+	/*arrow keys move sprite
+	queue of coordinates
+	collision with fruit increases length
+	*/
+
+	document.addEventListener('keydown',function(event){
+		var x = snake.path[snake.path.length-1].x1;
+    	var y = snake.path[snake.path.length-1].y1;
+    switch(event.keyCode){
+
+      case 65:
+        moveLeft();
+        //console.log("left");
+        snake.state="left";
+        break;
+      case 87:
+      	moveUp();
+        snake.state="up";
+        break;
+      case 68:
+        moveRight();
+        snake.state="right";
+        break;
+      case 83:
+        moveDown();
+        snake.state="down";
+        break
+      case 76:
+      	lengthen();
+      	console.log("lengthening");
+      	break;
+    }
+   // snake.path[snake.path.length-1].x1=x;
+  //  snake.path[snake.path.length-1].y1 =y;
+    drawSnake(snake);
+   }); 
+	var size = 100;
+	var map = new Array(size);
+     for (var i = 0; i < size; i++) {
+    	map[i] = new Array(size);
+    }
+    var Coord = function(x,y){
+    	this.x1=x;
+    	this.y1=y;
+    };
+    var velocity = 2;
+    var Snake = function(initLength){
+    	this.sLength = initLength;
+    	this.path= new Array(initLength);
+    	this.colorString1="rgb(107,142,35)";
+    	this.colorString2="rgb(34,139,34)";
+    	this.sSize = 10;
+    	this.state="up";
+ 		this.sizeInc=4;
+
+
+    };
+
+ 		function moveLeft(){
+ 			
+ 			for(var i=(snake.path.length-2)/2;i>=0;i--){
+ 				snake.path[2*i].x1 = snake.path[i+1].x1;
+ 				snake.path[2*i].y1 = snake.path[i+1].y1;
+ 			}
+ 			snake.path[snake.path.length-1].x1 -=velocity;
+ 		};
+ 		 function moveRight(){
+ 				
+ 			for(var i=(snake.path.length-2)/2;i>=0;i--){
+ 				snake.path[2*i].x1 = snake.path[i+1].x1;
+ 				snake.path[2*i].y1 = snake.path[i+1].y1;
+ 			}
+ 			snake.path[snake.path.length-1].x1 +=velocity;
+
+ 		};
+ 		function moveUp(){
+ 				
+ 			for(var i=(snake.path.length-2)/2;i>=0;i--){
+ 				snake.path[2*i].x1 = snake.path[i+1].x1;
+ 				snake.path[2*i].y1 = snake.path[i+1].y1;
+ 			}
+ 			snake.path[snake.path.length-1].y1 -=velocity;
+ 		};
+ 		function moveDown(){
+ 				
+ 			for(var i=(snake.path.length-2)/2;i>=0;i--){
+ 				snake.path[2*i].x1 = snake.path[i+1].x1;
+ 				snake.path[2*i].y1 = snake.path[i+1].y1;
+ 			}
+ 			snake.path[snake.path.length-1].y1 +=velocity;
+ 		};
+   	function drawSnake(snakeO){
+   		var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    		       ctx.clearRect(0,0,400,400);
+    		ctx.fillStyle = snakeO.colorString1;
+    		ctx.fillRect(snakeO.path[snakeO.sLength-1].x1,snakeO.path[snakeO.sLength-1].y1,snakeO.sSize,snakeO.sSize);
+    		
+    		ctx.fillStyle= snakeO.colorString2;
+    		for(var i =0;i<snakeO.sLength-1;i++){
+    			ctx.fillRect(snakeO.path[i].x1,snakeO.path[i].y1,snakeO.sSize,snakeO.sSize);
+
+    		}
+    	};
+    
+  function lengthen(){
+	    	
+	    	coord= new Coord(snake.path[snake.path.length-1].x1,snake.path[snake.path.length-1].y1);
+	    	snake.sLength++;
+	    	switch(snake.state){
+	    		
+	    		case "up":
+	    		coord.y1-=snake.sizeInc;
+	    		break;
+	    		case "down":
+	    		coord.y1+=snake.sizeInc;
+	    		break;
+	    		case "right":
+	    		coord.x1+=snake.sizeInc;
+	    		break;
+	    		case "left":
+	    		coord.x1-=snake.sizeInc;
+	    		break;
+
+
+	    	}
+	    	snake.path.push(coord);
+
+
+    	};
+
+
+			snake = new Snake(1);
+    currentCoord = new Coord(15,15);
+    snake.path[0]= currentCoord;
+	function Game(){	
+		var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+	
+
+		//	ctx.clearRect(0,0,400,400);
+			drawSnake(snake);
+
+		
+
+
+	};
+	</script>
+</head>
+<body onload="Game();">
+	<canvas id="canvas" width="400" height="400">
+	</canvas>
+</html>
