@@ -38,14 +38,17 @@
       	lengthen();
       	console.log("lengthening");
       	break;
+      case 13:
+        restartGame();
+
     }
    // snake.path[snake.path.length-1].x1=x;
   //  snake.path[snake.path.length-1].y1 =y;
 
     if(gameState==="play"){
-    drawSnake(snake);
+    //drawSnake(snake);
   }
-    
+
    }); 
 	var size = 100;
 	var map = new Array(size);
@@ -88,6 +91,22 @@ function generateFood(food){
   food.coord.x1=x;
   food.coord.y1=y;
 
+
+};
+function restartGame(){
+  gameState="play";
+   clearInterval(drawIntervalID);
+   clearInterval(collisionIntervalID);
+
+   drawIntervalID=setInterval(drawInterval,gameRate);
+      collisionIntervalID= setInterval(collisionEngine,collisionRate);
+            snake = new Snake(1);
+      food = new Food(200,200,20);
+    currentCoord0 = new Coord(15,15);
+    currentCoord1 = new Coord(15+snake.sSize,15);
+    currentCoord2 = new Coord(15+snake.sSize*2,15);
+    snake.path[0]= currentCoord0;
+      
 
 };
 
@@ -258,7 +277,7 @@ function generateFood(food){
     ctx.clearRect(0,0,400,400);
      ctx.font = "20px Times New Roman";  
   ctx.fillStyle = "Black";  
-  ctx.fillText("You LOST", 5, 30);
+  ctx.fillText("You LOST with "+"Score "+score, 5, 30);
     scorebox.innerText="END";
    }  
 
