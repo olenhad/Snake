@@ -20,19 +20,26 @@
       case 65:
         //moveLeft();
         //console.log("left");
+        if(snake.state!="right")
         snake.state="left";
         break;
       case 87:
       	//moveUp();
+        if(snake.state!="down")
         snake.state="up";
         break;
       case 68:
        // moveRight();
+       if(snake.state!="left")
         snake.state="right";
         break;
       case 83:
        // moveDown();
+       if(snake.state!="up"){
         snake.state="down";
+        
+       }
+        
         break
       case 76:
       	lengthen();
@@ -95,6 +102,7 @@ function generateFood(food){
 };
 function restartGame(){
   gameState="play";
+  score=0;
    clearInterval(drawIntervalID);
    clearInterval(collisionIntervalID);
 
